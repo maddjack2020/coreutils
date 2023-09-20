@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+PATH := /opt/cross/bin:$(PATH)
+SHELL = /bin/bash
+CONFARGS = --host=x86_64-xgcc-linux-gnu --enable-install-program=hostname --enable-no-install-program=kill,uptime
+
+%:
+	dh $@ --with autoreconf
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(CONFARGS)
+
+execute_after_dh_auto_install:
+	mkdir -p debian/coreutils/bin
+	mv -t debian/coreutils/bin $(wildcard $(addprefix debian/coreutils/usr/bin/, cat chgrp chmod chown cp date dd df dir echo false ln ls mkdir mknod mktemp mv pwd readlink rm rmdir sleep stty sync touch true uname vdir))
+	mkdir -p debian/coreutils/sbin
+	mv debian/coreutils/usr/bin/chroot debian/coreutils/sbin
+	mkdir -p debian/coreutils/usr/share/man/man8
+	mv debian/coreutils/usr/share/man/man1/chroot.1 debian/coreutils/usr/share/man/man8/chroot.8
+	sed -i 's/"1"/"8"/' debian/coreutils/usr/share/man/man8/chroot.8

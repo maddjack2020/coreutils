@@ -1,0 +1,6 @@
+coreutils (9.4-1) mantic; urgency=low
+
+  * Initial release. Closes: #nnnn
+    <nnnn is the bug number of your ITP>
+
+ -- Jackson Hansen <madjack971@bsdmail.com>  Tue, 19 Sep 2023 23:42:59 -0700
